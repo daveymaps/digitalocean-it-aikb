@@ -56,3 +56,47 @@ When you no longer need this sample application running live, you can delete it 
 3. In the **Settings** tab, click **Destroy**.
 
 **Note**: If you do not delete your app, charges for using DigitalOcean services will continue to accrue.
+
+
+nvironment variables in DigitalOcean
+
+Set these on the App Platform web service:
+
+ATLASSIAN_SITE_URL=https://your-domain.atlassian.net
+ATLASSIAN_EMAIL=it-automation@yourcompany.com
+ATLASSIAN_API_TOKEN=<secret>
+JIRA_PROJECT_FILTER=project in (IT, HELP, SEC)
+PROXY_API_KEY=<long-random-secret>
+ALLOWED_ORIGINS=https://your-dashboard-domain.com
+PORT=8080
+
+For testing, ALLOWED_ORIGINS can be blank. For production, set it to your dashboard URL.
+
+DigitalOcean App Platform settings
+
+Use:
+
+Resource type: Web Service
+Public HTTP port: 8080
+Run command: blank
+
+Because Dockerfile already has:
+
+CMD ["npm", "start"]
+Test routes
+
+Health check:
+
+curl https://your-app-url.ondigitalocean.app/health
+
+Get a ticket:
+
+curl \
+  -H "x-api-key: <PROXY_API_KEY>" \
+  https://your-app-url.ondigitalocean.app/api/jira/ticket/IT-1234
+
+Search tickets:
+
+curl \
+  -H "x-api-key: <PROXY_API_KEY>" \
+  "https://your-app-url.ondigitalocean.app/api/jira/search?q=onedrive&status=open&maxResults=5"
